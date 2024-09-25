@@ -1,0 +1,58 @@
+package Sound;
+
+// Import necessary libraries
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JOptionPane;
+
+public class Sound {
+
+	// Method to play music
+	void playMusic(String musicLocation) {
+		try {
+			// create a file object with the specified music location
+			File musicPath = new File(musicLocation);
+
+			// check if the file exists
+			if (musicPath.exists()) {
+				// create an audio input stream from the music file
+				AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+
+				// create a clip to play the audio
+				Clip clip = AudioSystem.getClip();
+
+				// open the clip and start playing the audio
+				clip.open(audioInput);
+				clip.start();
+
+				// loop the audio continuously until user interaction
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+				// show a message dialog to pause the audio playback
+		//		JOptionPane.showMessageDialog(null, "Hit OK to pause playback");
+
+				// get the current position of the clip and stop it
+				long clipTimePosition = clip.getMicrosecondPosition();
+				clip.stop();
+
+				// show a message dialog to resume the audio playback
+			//	JOptionPane.showMessageDialog(null, "Hit OK to resume playback");
+
+				// set the clip's position to the previously stored position and start playing again
+				clip.setMicrosecondPosition(clipTimePosition);
+				clip.start();
+
+				// show a message dialog to stop the audio playback
+		//		JOptionPane.showMessageDialog(null, "Hit OK to stop playback");
+			} else {
+				// if the file doesn't exist, print an error message
+				System.out.println("Can't find file");
+			}
+		} catch (Exception ex) {
+			// catch any exceptions that may occur during audio playback and print the stack trace
+			ex.printStackTrace();
+		}
+	}
+}
