@@ -1,0 +1,117 @@
+package Sound;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+public class Word 
+{
+	private String answer;
+	private String possible[] = new String [5757];
+
+	public void readln ()//dictionary
+	{
+		BufferedReader in;
+		try
+		{
+			in = new BufferedReader (new FileReader ("dictionary.txt"));
+			int index = 0;
+			String line;
+			while ((line = in.readLine ()) != null)
+			{
+				possible [index] = line.trim ();
+				index++;
+			}
+			in.close ();
+		}
+		catch (IOException e)
+		{
+			System.out.println ("Error opening file " + e);
+		}
+	}
+
+	//constructor
+	public Word ()
+	{
+		readln();
+		int pos = (int) (Math.random () * possible.length);
+		answer = possible [pos];
+	}
+
+	//custom constructor
+	public Word(String answer)
+	{
+		readln();
+		this.answer = answer;
+	}
+
+	//accessors
+	public String getWord () 
+	{
+		return answer;
+	}
+
+	public String getNewWord ()
+	{
+		int pos = (int) (Math.random () * possible.length);
+		answer = possible [pos];
+		return answer;
+	}
+
+	public String toString ()
+	{//prints whatever is stored in the answer variable
+		return answer + "";
+	}
+
+	//hint methods (accessors)
+	public String hint ()
+	{
+		if (answer.length () > 0)
+			return Character.toString (answer.charAt (0));
+		else
+			return "no word";
+			}
+
+
+	public String hint2 ()
+	{
+		if (answer.length () > 0)
+			return Character.toString (answer.charAt (answer.length () - 1));
+		else
+			return "no word";
+	}
+
+
+	//mutator
+	public void setWord (String a)
+	{
+		answer = a;
+	}
+
+	//facilitators
+	public boolean contains (char a)
+	{
+		if (answer.indexOf(a) != -1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean correct (char a, int pos)
+	{
+		if (answer.charAt(pos) == a)
+			return true;
+		else 
+			return false;
+	}
+
+	public boolean equals (Word w)
+	{
+		if (w.getWord ().equals (answer))
+			return true;
+		else
+			return false;
+	}
+
+
+}
